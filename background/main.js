@@ -1570,7 +1570,9 @@ var Clipboard, Commands, Completers, Exclusions, Marks, TabRecency, g_requestHan
     },
     OnConnect: function(port) {
       Connections.format(port);
-      port.onMessage.addListener(Connections.OnMessage);
+      port.onMessage.addListener(function(msg, port2) {
+        Connections.OnMessage(msg, port2 || port);
+      });
       var type = port.name[9] | 0, ref, tabId, pass, status;
       tabId = port.sender.tabId;
       if (type === 8) {
@@ -1578,10 +1580,14 @@ var Clipboard, Commands, Completers, Exclusions, Marks, TabRecency, g_requestHan
         if (tabId < 0) {
           port.sender.tabId = cPort ? cPort.sender.tabId : TabRecency.last();
         }
-        port.onDisconnect.addListener(Connections.OnOmniDisconnect);
+        port.onDisconnect.addListener(function(port2) {
+          Connections.OnOmniDisconnect(port2 || port);
+        });
         return;
       }
-      port.onDisconnect.addListener(Connections.OnDisconnect);
+      port.onDisconnect.addListener(function(port2) {
+        Connections.OnDisconnect(port2 || port);
+      });
       pass = Exclusions.getPattern(port.sender.url);
       port.postMessage((type & 1) ? {
         name: "init",

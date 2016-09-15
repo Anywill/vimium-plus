@@ -8,6 +8,9 @@ A custom [Vimium](https://github.com/philc/vimium)
   supporting Chrome with the session functionalities only (ver >= 37).
   For older version, it would try to work ^_^
 
+If you wants to use Vimium++ on Firefox, please go to `about:config` and
+  mark `dom.webcomponents.enabled` as `true`.
+
 In the *weidu* directory is 微度新标签页.
 
 __Vimium:__
