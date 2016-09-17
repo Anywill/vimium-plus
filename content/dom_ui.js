@@ -83,6 +83,7 @@ VDom.UI = {
     return sel;
   },
   removeSelection: function(root) {
+    if (!root && !this.root.getSelection) { return false; }
     var sel = (root || this.root).getSelection();
     if (sel.type !== "Range" || !sel.anchorNode) {
       return false;
